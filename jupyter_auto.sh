@@ -58,6 +58,27 @@ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ${ssl_key} -ou
 
 
 # Changing JupyterHub Config File
+initial_sed='s|# '
+ending_sed="|g "
+file_sed=${opt_jupyter}'jupyterhub_config.py'
+
+# #Default URL
+default_url='c.JupyterHub.default_url = traitlets.Undefined'
+new_default_url='c.JupyterHub.default_url = "/lab"'
+
+sed_script_default_url=${initial_sed}${default_url}'|'${new_default_url}
+sudo sed -i "${sed_script_default_url}${ending_sed}" ${file_sed} 
+echo ${sed_script_default_url}${ending_sed} ${file_sed}
+#echo ${sed_script_default_url}
+
+
+#sudo sed -i "s,# c.JupyterHub.default_url = traitlets.Undefined,c.JupyterHub.default_url = '/lab',g" /opt/jupyterhub/jupyterhub_config.py
+
+
+#sudo sed -i "s,# c.JupyterHub.default_url = traitlets.Undefined,c.JupyterHub.default_url = '/lab',g" /opt/jupyterhub/jupyterhub_config.py
+
+
+
 
 
 cd $current_dir
