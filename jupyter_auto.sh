@@ -62,14 +62,34 @@ initial_sed='s|# '
 ending_sed="|g "
 file_sed=${opt_jupyter}'jupyterhub_config.py'
 
-# #Default URL
+# Default URL
 default_url='c.JupyterHub.default_url = traitlets.Undefined'
 new_default_url='c.JupyterHub.default_url = "/lab"'
 
 sed_script_default_url=${initial_sed}${default_url}'|'${new_default_url}
 sudo sed -i "${sed_script_default_url}${ending_sed}" ${file_sed} 
-echo ${sed_script_default_url}${ending_sed} ${file_sed}
-#echo ${sed_script_default_url}
+
+# Default Logout
+default='# c.JupyterHub.shutdown_on_logout = False'
+new_default='c.JupyterHub.shutdown_on_logout = True'
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed} 
+
+
+# Default Certs
+default="# c.JupyterHub.ssl_cert = ''"
+new_default="c.JupyterHub.ssl_cert = '/opt/jupyterhub/ssl-certs/jhub.crt'"
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
+
+# Default Certs
+default="# c.JupyterHub.ssl_key = ''"
+new_default="c.JupyterHub.ssl_key = '/opt/jupyterhub/ssl-certs/jhub.key'"
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 #sudo sed -i "s,# c.JupyterHub.default_url = traitlets.Undefined,c.JupyterHub.default_url = '/lab',g" /opt/jupyterhub/jupyterhub_config.py
