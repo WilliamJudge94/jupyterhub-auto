@@ -70,7 +70,7 @@ sed_script_default_url=${initial_sed}${default_url}'|'${new_default_url}
 sudo sed -i "${sed_script_default_url}${ending_sed}" ${file_sed} 
 
 # Default Logout
-default='# c.JupyterHub.shutdown_on_logout = False'
+default='c.JupyterHub.shutdown_on_logout = False'
 new_default='c.JupyterHub.shutdown_on_logout = True'
 
 sed_script_default=${initial_sed}${default}'|'${new_default}
@@ -78,15 +78,15 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 # Default Certs
-default="# c.JupyterHub.ssl_cert = ''"
-new_default="c.JupyterHub.ssl_cert = '/opt/jupyterhub/ssl-certs/jhub.crt'"
+default='c.JupyterHub.ssl_cert = '
+new_default='c.JupyterHub.ssl_cert = "/opt/jupyterhub/ssl-certs/jhub.crt" #'
 
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 # Default Certs
-default="# c.JupyterHub.ssl_key = ''"
-new_default="c.JupyterHub.ssl_key = '/opt/jupyterhub/ssl-certs/jhub.key'"
+default='c.JupyterHub.ssl_key = '
+new_default='c.JupyterHub.ssl_key = "/opt/jupyterhub/ssl-certs/jhub.key" #'
 
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
