@@ -91,11 +91,6 @@ new_default='c.JupyterHub.ssl_key = "/opt/jupyterhub/ssl-certs/jhub.key" #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
-#sudo sed -i "s,# c.JupyterHub.default_url = traitlets.Undefined,c.JupyterHub.default_url = '/lab',g" /opt/jupyterhub/jupyterhub_config.py
-
-
-#sudo sed -i "s,# c.JupyterHub.default_url = traitlets.Undefined,c.JupyterHub.default_url = '/lab',g" /opt/jupyterhub/jupyterhub_config.py
-
 
 cd $current_dir
 sudo cp ./jupyterhub /etc/init.d/. 
