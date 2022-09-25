@@ -45,6 +45,14 @@ then
 	sudo python3 -m pip install --upgrade --force-reinstall pyzmg
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
+	sudo python3 -m pip install autopep8
+	# Install Extensions
+	# Install plotly
+	# Install matplotlib
+	# Install github
+	# Install spreadsheets
+	# Install TOC
+	# Instal collapsable headings
 fi
 
 # Generating Config File
@@ -98,5 +106,20 @@ sudo chmod +x /etc/init.d/jupyterhub
 
 sudo systemctl daemon-reload
 sudo service jupyterhub start
+
+
+# Install SystemDSpawner
+
+# Allow the User to select main dir for all users
+
+# Allow the User to set up the groupnames for SharedFiles
+
+# Allow the User to setup the ASCII characters
+
+# Allow the User to setup the RAM and CPU limits
+
+# Allow the User to setup manager name
+
+# 
 
 
