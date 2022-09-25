@@ -20,7 +20,7 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
 DESC="Multi-user server for Jupyter notebooks"
-NAME=jupyterhub2
+NAME=jupyterhub
 DAEMON=/usr/local/bin/jupyterhub
 DAEMON_ARGS="--config=/opt/jupyterhub/jupyterhub_config.py"
 PIDFILE=/var/run/$NAME.pid
