@@ -98,8 +98,8 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 cd $current_dir
-sudo chmod +x ./jupyterhub
 sudo cp ./jupyterhub /etc/init.d/. 
+sudo chmod +x /etc/init.d/jupyterhub
 
 sudo systemctl daemon-reload
 sudo service jupyterhub start
