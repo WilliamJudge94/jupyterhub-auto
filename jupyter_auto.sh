@@ -146,6 +146,7 @@ creation_dir3=$(echo "$creation_dir2" | cut -d "/" -f2)
 creation_dir4="/$creation_dir3/"
 sudo groupadd ${user_groups2}
 sudo chown -R root:${user_groups2} ${creation_dir4}
+sudo chmod -R 775 ${creation_dir4} 
 
 # Copy Localsettings To Spawner
 
