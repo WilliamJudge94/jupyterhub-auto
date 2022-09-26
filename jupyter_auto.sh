@@ -3,7 +3,7 @@ current_dir="$PWD"
 echo "Is Conda Installed? (y/n)"
 read conda_answer
 
-
+# Installing Conda
 if [ $conda_answer != "y" ]
 then
 	echo "Anaconda Year"
@@ -55,19 +55,26 @@ then
 	sudo python3 -m pip install jupyterlab
 	sudo python3 -m pip install jupyterhub
 	sudo python3 -m pip install psutil
-	# install systemdspawner here
 	sudo python3 -m pip install jupyterlab-system-monitor
 	sudo python3 -m pip install --upgrade --force-reinstall pyzmg
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install autopep8
 	# Install Extensions
-	# Install plotly
-	# Install matplotlib
+	
 	# Install github
+	sudo python3 -m pip install --upgrade jupyterlab jupyterlab-git
 	# Install spreadsheets
+	sudo jupyter labextension install jupyterlab-spreadsheet
+	# Execution Time
+	sudo python3 -m pip install jupyterlab_execute_time
+	# Install Dark Mode
+	sudo python3 -m pip install jupyterlab_theme_solarized_dark
+	
 	# Install TOC
 	# Instal collapsable headings
+	# Install plotly
+	# Install matplotlib
 fi
 
 # Generating Config File
@@ -115,9 +122,13 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 
-
-
 # Install SystemDSpawner
+
+# Default Spawner
+
+# Move Localsettings To Spawner
+
+# Move Ascii To Spawner
 
 # Allow the User to select main dir for all users
 
@@ -140,5 +151,6 @@ sudo chmod +x /etc/init.d/jupyterhub
 
 sudo systemctl daemon-reload
 sudo service jupyterhub start
+sudo service jupyterhub restart
 
 
