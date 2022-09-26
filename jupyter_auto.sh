@@ -20,6 +20,9 @@ then
 fi
 
 
+# Make Sure User Has Set The Localsettings File
+
+
 opt_jupyter_ssl="/opt/jupyterhub/ssl-certs/"
 opt_jupyter="/opt/jupyterhub/"
 
