@@ -59,7 +59,7 @@ then
 	sudo python3 -m pip install --upgrade --force-reinstall pyzmg
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
-	sudo python3 -m pip install autopep8
+	sudo python3 -m pip install --upgrade autopep8
 	# Install Extensions
 	
 	# Install github
@@ -141,6 +141,14 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 # Allow the User to setup manager name
 
 
+
+# Create Shared Directory
+
+
+# Set Permissions For Shared Directory
+
+
+# Copy Anaconda To Shared Directory
 
 
 
