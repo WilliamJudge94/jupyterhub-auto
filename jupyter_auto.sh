@@ -21,6 +21,16 @@ fi
 
 
 # Make Sure User Has Set The Localsettings File
+printf "\n"
+echo "Have You Edited The localsettings.py File? (y/n)"
+read localsettings_answ
+
+
+if [ $localsettings_answ == "n" ]
+then
+	echo "Please Edit The localsettings.py File"
+	exit 0 
+fi
 
 
 opt_jupyter_ssl="/opt/jupyterhub/ssl-certs/"
@@ -34,6 +44,8 @@ else
 	sudo mkdir ${opt_jupyter_ssl}
 fi
 
+# Installing Packages
+printf "\n"
 echo "Install Packages? y/n"
 read install_answer
 if [ $install_answer == "y" ]
@@ -87,7 +99,6 @@ new_default='c.JupyterHub.shutdown_on_logout = True'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed} 
 
-
 # Default Certs
 default='c.JupyterHub.ssl_cert = '
 new_default='c.JupyterHub.ssl_cert = "/opt/jupyterhub/ssl-certs/jhub.cert" #'
@@ -95,7 +106,7 @@ new_default='c.JupyterHub.ssl_cert = "/opt/jupyterhub/ssl-certs/jhub.cert" #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
-# Default Certs
+# Default Keys
 default='c.JupyterHub.ssl_key = '
 new_default='c.JupyterHub.ssl_key = "/opt/jupyterhub/ssl-certs/jhub.key" #'
 
@@ -103,12 +114,7 @@ sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
-cd $current_dir
-sudo cp ./jupyterhub /etc/init.d/. 
-sudo chmod +x /etc/init.d/jupyterhub
 
-sudo systemctl daemon-reload
-sudo service jupyterhub start
 
 
 # Install SystemDSpawner
@@ -123,6 +129,16 @@ sudo service jupyterhub start
 
 # Allow the User to setup manager name
 
-# 
+
+
+
+
+# Making JupyterHub A Service
+cd $current_dir
+sudo cp ./jupyterhub /etc/init.d/. 
+sudo chmod +x /etc/init.d/jupyterhub
+
+sudo systemctl daemon-reload
+sudo service jupyterhub start
 
 
