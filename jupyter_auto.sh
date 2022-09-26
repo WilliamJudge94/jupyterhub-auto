@@ -124,11 +124,27 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 # Install SystemDSpawner
 
-# Default Spawner
+# Set Default Spawner
 
-# Move Localsettings To Spawner
+# Read Localsettings
 
-# Move Ascii To Spawner
+# Create Main Dir
+cd $current_dir
+creation_dir=$(sed '13!d;q' ./localsettings.py)
+if [ -d ${creation_dir} ]
+then
+	echo ${creation_dir}"exists"
+else
+	sudo mkdir ${creation_dir}
+fi
+
+# Set Permissions In Main Dir
+
+
+# Copy Localsettings To Spawner
+
+# Copy Ascii To Spawner
+
 
 # Allow the User to select main dir for all users
 
@@ -141,19 +157,10 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 # Allow the User to setup manager name
 
 
-
-# Create Shared Directory
-
-
-# Set Permissions For Shared Directory
-
-
 # Copy Anaconda To Shared Directory
 
 
-
 # Making JupyterHub A Service
-cd $current_dir
 sudo cp ./jupyterhub /etc/init.d/. 
 sudo chmod +x /etc/init.d/jupyterhub
 
