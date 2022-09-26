@@ -131,11 +131,12 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 # Create Main Dir
 cd $current_dir
 creation_dir=$(sed '13!d;q' ./localsettings.py)
-if [ -d ${creation_dir} ]
+creation_dir2=${creation_dir:12:-1}
+if [ -d ${creation_dir2} ]
 then
-	echo ${creation_dir}"exists"
+	echo ${creation_dir2}"exists"
 else
-	sudo mkdir ${creation_dir}
+	sudo mkdir -p ${creation_dir2}
 fi
 
 # Set Permissions In Main Dir
