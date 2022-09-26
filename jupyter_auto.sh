@@ -134,13 +134,18 @@ creation_dir=$(sed '13!d;q' ./localsettings.py)
 creation_dir2=${creation_dir:12:-1}
 if [ -d ${creation_dir2} ]
 then
-	echo ${creation_dir2}"exists"
+	echo ${creation_dir2}" exists"
 else
 	sudo mkdir -p ${creation_dir2}
 fi
 
 # Set Permissions In Main Dir
-
+user_groups=$(sed '6!d;q' ./localsettings.py)
+user_groups2=${user_groups:14:-1}
+creation_dir3=$(echo "$creation_dir2" | cut -d "/" -f2)
+creation_dir4="/$creation_dir3/"
+sudo groupadd ${user_groups2}
+sudo chown -R root:${user_groups2} ${creation_dir4}
 
 # Copy Localsettings To Spawner
 
