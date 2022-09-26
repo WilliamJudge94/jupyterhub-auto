@@ -60,6 +60,7 @@ then
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install --upgrade autopep8
+	sudo python3 -m pip install jupyterlab-link-share
 	# Install Extensions
 	
 	# Install github
@@ -71,8 +72,6 @@ then
 	# Install Dark Mode
 	sudo python3 -m pip install jupyterlab_theme_solarized_dark
 	
-	# Install TOC
-	# Instal collapsable headings
 	# Install plotly
 	# Install matplotlib
 fi
@@ -122,9 +121,9 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 
-# Install SystemDSpawner
+# Install Custom SystemDSpawner
 
-# Set Default Spawner
+# Set Default Spawner For JupyterHub
 
 # Read Localsettings
 
@@ -150,18 +149,8 @@ sudo chmod -R 775 ${creation_dir4}
 
 # Copy Localsettings To Spawner
 
+
 # Copy Ascii To Spawner
-
-
-# Allow the User to select main dir for all users
-
-# Allow the User to set up the groupnames for SharedFiles
-
-# Allow the User to setup the ASCII characters
-
-# Allow the User to setup the RAM and CPU limits
-
-# Allow the User to setup manager name
 
 
 # Copy Anaconda To Shared Directory
