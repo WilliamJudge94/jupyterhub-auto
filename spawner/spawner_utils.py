@@ -81,11 +81,13 @@ def google_cal_full_check(check_name):
 
 def check_dir_exists(username, path=ls.MAIN_DIR):
     total_path = f'{path}{username}/'
-    access_mkdir = 0o2777
+    #access_mkdir = 0o2777
+    access_mkdir = 0o0700
 
     if not os.path.isdir(total_path):
         os.mkdir(total_path, mode=access_mkdir)
-        shutil.chown(total_path, user=None, group=ls.GROUP_NAME)
+        #shutil.chown(total_path, user=None, group=ls.GROUP_NAME)
+        shutil.chown(total_path, user=username, group=None)
         
 
 def get_current_users_resources(dic):

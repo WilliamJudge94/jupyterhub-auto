@@ -127,6 +127,9 @@ new_default='c.JupyterHub.spawner_class = "systemdspawner.SystemdSpawner" #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
+
+
+
 # Create Main Dir
 cd $current_dir
 creation_dir=$(sed '13!d;q' ./spawner/localsettings.py)
@@ -137,6 +140,16 @@ then
 else
 	sudo mkdir -p ${creation_dir2}
 fi
+
+
+# Default Dir
+default="c.Spawner.notebook_dir = ''"
+new_default='c.Spawner.notebook_dir = "'${creation_dir2}'" #'
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
+
+
 
 # Set Permissions In Main Dir
 user_groups=$(sed '6!d;q' ./spawner/localsettings.py)
