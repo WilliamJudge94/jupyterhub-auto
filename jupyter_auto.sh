@@ -130,7 +130,7 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 # Create Main Dir
 cd $current_dir
-creation_dir=$(sed '13!d;q' ./localsettings.py)
+creation_dir=$(sed '13!d;q' ./spawner/localsettings.py)
 creation_dir2=${creation_dir:12:-1}
 if [ -d ${creation_dir2} ]
 then
@@ -140,7 +140,7 @@ else
 fi
 
 # Set Permissions In Main Dir
-user_groups=$(sed '6!d;q' ./localsettings.py)
+user_groups=$(sed '6!d;q' ./spawner/localsettings.py)
 user_groups2=${user_groups:14:-1}
 creation_dir3=$(echo "$creation_dir2" | cut -d "/" -f2)
 creation_dir4="/$creation_dir3/"
@@ -148,7 +148,7 @@ sudo groupadd ${user_groups2}
 sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
 
-pyv="$(python -V 2>&1)"
+pyv="$(sudo python3 -V 2>&1)"
 echo "$pyv"
 sudo cp -r spawner/. /usr/local/lib/python${pyv}/dist-packages/systemdspawner/.
 
