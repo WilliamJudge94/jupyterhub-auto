@@ -128,6 +128,19 @@ sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
+# Default Logo
+default="c.JupyterHub.logo_file = "
+new_default='c.JupyterHub.logo_file = "/opt/jupyterhub/templates/jhub_logo.png" #'
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
+
+# Default Login Template
+default="c.JupyterHub.template_paths = "
+new_default='c.JupyterHub.template_paths =  ["/opt/jupyterhub/templates/"] #'
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
 # Create Main Dir
@@ -140,7 +153,6 @@ then
 else
 	sudo mkdir -p ${creation_dir2}
 fi
-
 
 # Default Dir
 default="c.Spawner.notebook_dir = ''"
@@ -164,6 +176,9 @@ pyv="$(sudo python3 -V 2>&1)"
 echo "Please Type In The First Two Digits of $pyv  It should be in the form of 3.10"
 read pversion
 sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/.
+
+sudo cp -r templates /opt/jupyterhub/
+
 
 # Making JupyterHub A Service
 sudo cp ./jupyterhub /etc/init.d/. 

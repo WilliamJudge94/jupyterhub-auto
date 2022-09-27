@@ -26,6 +26,8 @@ DAEMON_ARGS="--config=/opt/jupyterhub/jupyterhub_config.py"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
+rm -f /hpc_resources.pkl
+
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
 
