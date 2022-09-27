@@ -186,7 +186,7 @@ class SystemdSpawner(Spawner):
             </pre>
 
         <div class="form-group">
-            <label for="env">Environment variables (one per line) Min RAM: 16/""" + str(self.open_ram) + """GB  -  Min CPU: 1/""" + str(self.open_cpu) + """Threads</label>
+            <label for="env">Environment variables (one per line) Min RAM: 1/""" + str(self.open_ram) + """GB  -  Min CPU: 1/""" + str(self.open_cpu) + """Threads</label>
             <textarea class="form-control" rows="5" name="env">{env}</textarea>
         </div>
         """.format(
