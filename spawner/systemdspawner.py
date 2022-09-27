@@ -335,10 +335,8 @@ class SystemdSpawner(Spawner):
                 else:
                     raise ValueError(f'User Selected - {round(self.mem_limit / ls.RAM_DIVIDER)}G Mem Limit ---  Available {tot_min_ram}G')
 
-
         if self.mem_guarantee:
             env['MEM_GUARANTEE'] = str(self.mem_guarantee)
-
 
         if self.cpu_limit:
             env['CPU_LIMIT'] = str(self.cpu_limit)
@@ -353,7 +351,6 @@ class SystemdSpawner(Spawner):
 
         if self.cpu_guarantee:
             env['CPU_GUARANTEE'] = str(self.cpu_guarantee)
-
 
         if self.user.name in ls.MEMBERS_DICT:
             if ls.MEMBERS_DICT[self.user.name][0]:
@@ -375,7 +372,6 @@ class SystemdSpawner(Spawner):
         add_user_resources(self.user.name,
                             round(self.mem_limit/ls.RAM_DIVIDER),
                             self.cpu_limit)
-
 
 
         properties = {}
