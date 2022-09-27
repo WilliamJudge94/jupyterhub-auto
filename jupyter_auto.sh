@@ -61,6 +61,7 @@ then
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install --upgrade autopep8
 	sudo python3 -m pip install jupyterlab-link-share
+	sudo python3 -m pip install jupyterhub-systemdspawner
 	# Install Extensions
 	
 	# Install github
@@ -124,6 +125,8 @@ sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 # Install Custom SystemDSpawner
 
 # Set Default Spawner For JupyterHub
+#c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
+#c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
 
 # Read Localsettings
 
