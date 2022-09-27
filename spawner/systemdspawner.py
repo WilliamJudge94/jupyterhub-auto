@@ -26,6 +26,7 @@ from .spawner_utils import (obtain_gcal,
                         start_resource_check,
                         obtain_logger,
                         obtain_ascii_art,
+                        obtain_localsettings,
 )
 
 from .ascii_art import obtain_ascii_art
@@ -221,6 +222,12 @@ class SystemdSpawner(Spawner):
         env = super().get_env()
         if self.user_options.get('env'):
             env.update(self.user_options['env'])
+
+        self.mem_limit = env['MEM_LIMIT']
+        self.mem_guarantee = '1G'
+        self.cpu_limit = float(env['CPU_LIMIT'])
+        self.cpu_guarantee = float(1.0)
+
         return env
 
     def __init__(self, *args, **kwargs):
@@ -304,6 +311,72 @@ class SystemdSpawner(Spawner):
             await systemd.reset_service(self.unit_name)
 
         env = self.get_env()
+
+
+        ls = obtain_localsettings()
+        if self.user.name == ls.SERVER_MANAGER:
+            print(f'{self.user.name} has initiated a resource reset Pre-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
+            self.open_ram, self.open_cpu, dic = start_resource_check(reset=env['RESET_RESOURCES'] )
+            print(f'{self.user.name} has initiated a resource reset Post-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
+
+        else:
+            self.open_ram, self.open_cpu, dic = start_resource_check(reset=False)
+
+        check_dir_exists(self.user.name)
+
+        tot_min_ram = self.open_ram
+
+        if self.mem_limit:
+            env['MEM_LIMIT'] = str(self.mem_limit)
+            if round(self.mem_limit / ls.RAM_DIVIDER) > tot_min_ram:
+                # If the user is only trying to select a single RAM while maxed out - helps reset usage values
+                if tot_min_ram <= 0 and round(self.mem_limit / ls.RAM_DIVIDER) <= 1.5:
+                    pass
+                else:
+                    raise ValueError(f'User Selected - {round(self.mem_limit / ls.RAM_DIVIDER)}G Mem Limit ---  Available {tot_min_ram}G')
+
+
+        if self.mem_guarantee:
+            env['MEM_GUARANTEE'] = str(self.mem_guarantee)
+
+
+        if self.cpu_limit:
+            env['CPU_LIMIT'] = str(self.cpu_limit)
+            if self.cpu_limit > self.open_cpu:
+                # If the user is only trying to select a single Core while maxed out - helps reset usage values
+                if self.open_cpu <= 0 and self.cpu_limit <= 1:
+                    pass
+                elif self.cpu_limit == 0:
+                    pass
+                else:
+                    raise ValueError(f'User Selected - {round(self.cpu_limit)} Threads Mem Limit ---  Available {self.open_cpu}Threads')
+
+        if self.cpu_guarantee:
+            env['CPU_GUARANTEE'] = str(self.cpu_guarantee)
+
+
+        if self.user.name in ls.MEMBERS_DICT:
+            if ls.MEMBERS_DICT[self.user.name][0]:
+                
+                cpu_limits_float = ls.MEMBERS_DICT[self.user.name][1]
+                ram_limits_int = int(ls.MEMBERS_DICT[self.user.name][2] * 1073741824)
+
+                env['CPU_LIMIT'] = str(cpu_limits_float)
+                env['MEM_LIMIT'] = str(ram_limits_int)
+                env['MEM_GUARANTEE'] = str(ram_limits_int)
+                self.cpu_limit = cpu_limits_float
+                self.mem_limit = ram_limits_int
+
+            else:
+                raise ValueError('User Does Not Have Permission To Use Espeon')
+
+        #google_cal_full_check(self.user.name)
+
+        add_user_resources(self.user.name,
+                            round(self.mem_limit/ls.RAM_DIVIDER),
+                            self.cpu_limit)
+
+
 
         properties = {}
 

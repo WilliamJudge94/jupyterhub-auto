@@ -40,6 +40,9 @@ logging.basicConfig(filename=ls.HPC_LOG_FILE,
 def obtain_logger(logging=logging):
     return logging
 
+def obtain_localsettings(ls=ls):
+    return ls
+
 def obtain_ascii_art():
     print(os.getcwd())
     print(ls.ASCII_ART_FILE)
@@ -171,13 +174,21 @@ def collect_current_cpu_usage(dic):
 
 
 def set_max_ram(ram_usage):
-    total_ram = round(psutil.virtual_memory().total / ls.RAM_DIVIDER) - 4
+
+    if ls.MAX_RAM is None:
+        total_ram = round(psutil.virtual_memory().total / ls.RAM_DIVIDER) - 4
+    else:
+        total_ram = round(ls.MAX_RAM - 4)
 
     return total_ram - ram_usage
 
 
 def set_max_cpu(cpu_usage):
-    total_cpu = psutil.cpu_count() - 2
+
+    if ls.MAX_CPU is None:
+        total_cpu = psutil.cpu_count() - 2
+    else:
+        total_cpu = ls.MAX_CPU - 2
 
     return total_cpu - cpu_usage
 
@@ -188,8 +199,7 @@ def add_user_resources(user,
                         filename=ls.HPC_RESOURCES_FILE,
                         path=ls.MAIN_DIR):
 
-    file = f'{path}{filename}'
-    
+    file = f'{path}{filename}'   
 
     dic = read_dict_file()
     dic[user] = [ram_chosen, cpu_chosen]
