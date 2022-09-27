@@ -7,41 +7,20 @@ from . import localsettings as ls
 from pathlib import Path
 
 
-# HPC_LOG_FILE = "/hpc_logins.log" 
-# HPC_RESOURCES_FILE = "hpc_resources.pkl"
-# RAM_DIVIDER = 1073741274
-# GCAL_ICS = None
-# GROUP_NAME = "SharedFiles"
-# MAX_RAM = None
-# MAX_CPU = None
-# ASCII_ART_FILE = "./ascii_art.txt"
-
-
-# # Main User Configurable Parameters
-# MAIN_DIR = "/local/data/"
-# SERVER_NAME = "ESPEON"
-# SERVER_MANAGER = "test_user"
-# MEMBERS_DICT = {
-
-# "test_user": [False, 1.0, 4.0],
-
-# }
-
 logging.basicConfig(filename=ls.HPC_LOG_FILE,
                     encoding='utf-8',
                     level=logging.DEBUG,
                     format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
-# Standard Locations
-#path = '/local/data/'
-#filename = 'hpc_resources.pkl'
 
 def obtain_logger(logging=logging):
     return logging
 
+
 def obtain_localsettings(ls=ls):
     return ls
+
 
 def obtain_ascii_art():
     print(os.getcwd())
@@ -49,6 +28,7 @@ def obtain_ascii_art():
     txt = Path(ls.ASCII_ART_FILE).read_text()
     print(txt)
     return txt
+
 
 def obtain_gcal():
     cal_url = ls.GCAL_ICS
