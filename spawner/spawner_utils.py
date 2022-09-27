@@ -1,10 +1,9 @@
-import {os,sys, pwd, grp,
-        shutil, pickle, psutil,
-        logging, requests}
-from ics import Calendar
+import os, sys, pwd, grp, \
+        shutil, pickle, psutil, \
+        logging, requests
+#from ics import Calendar
 from datetime import datetime, timezone
-sys.path.append('/usr/local/lib/python3.8/dist-packages/systemdspawner/')
-import localsettings as ls
+from . import localsettings as ls
 
 
 # HPC_LOG_FILE = "/hpc_logins.log" 

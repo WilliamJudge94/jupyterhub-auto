@@ -9,7 +9,7 @@ from systemdspawner import systemd
 from jupyterhub.spawner import Spawner
 from jupyterhub.utils import random_port
 
-from manager_utils import {obtain_gcal,
+from .spawner_utils import (obtain_gcal,
                         get_events_that_end_after_current_time, check_if_name_in_cal,
                         google_cal_full_check,
                         check_dir_exists,
@@ -25,7 +25,7 @@ from manager_utils import {obtain_gcal,
                         remove_user_resources,
                         start_resource_check,
                         obtain_logger,
-                        }
+)
 
 
 class SystemdSpawner(Spawner):

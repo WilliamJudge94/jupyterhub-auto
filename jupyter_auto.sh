@@ -55,6 +55,7 @@ then
 	sudo python3 -m pip install jupyterlab
 	sudo python3 -m pip install jupyterhub
 	sudo python3 -m pip install psutil
+	sudo python3 -m pip install ics
 	sudo python3 -m pip install jupyterlab-system-monitor
 	sudo python3 -m pip install --upgrade --force-reinstall pyzmg
 	sudo apt install nodejs npm
