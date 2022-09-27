@@ -62,7 +62,7 @@ then
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install --upgrade autopep8
 	sudo python3 -m pip install jupyterlab-link-share
-	sudo python3 -m pip install jupyterhub-systemdspawner
+	sudo python3 -m pip install --force-reinstall jupyterhub-systemdspawner
 	# Install Extensions
 	
 	# Install github
@@ -122,14 +122,11 @@ sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 
-
 # Install Custom SystemDSpawner
 
 # Set Default Spawner For JupyterHub
 #c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
 #c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
-
-# Read Localsettings
 
 # Create Main Dir
 cd $current_dir
@@ -151,14 +148,9 @@ sudo groupadd ${user_groups2}
 sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
 
-# Copy Localsettings To Spawner
-
-
-# Copy Ascii To Spawner
-
-
-# Copy Anaconda To Shared Directory
-
+pyv="$(python -V 2>&1)"
+echo "$pyv"
+sudo cp -r spawner/. /usr/local/lib/python${pyv}/dist-packages/systemdspawner/.
 
 # Making JupyterHub A Service
 sudo cp ./jupyterhub /etc/init.d/. 
