@@ -4,6 +4,7 @@ import os, sys, pwd, grp, \
 #from ics import Calendar
 from datetime import datetime, timezone
 from . import localsettings as ls
+from pathlib import Path
 
 
 # HPC_LOG_FILE = "/hpc_logins.log" 
@@ -39,6 +40,12 @@ logging.basicConfig(filename=ls.HPC_LOG_FILE,
 def obtain_logger(logging=logging):
     return logging
 
+def obtain_ascii_art():
+    print(os.getcwd())
+    print(ls.ASCII_ART_FILE)
+    txt = Path(ls.ASCII_ART_FILE).read_text()
+    print(txt)
+    return txt
 
 def obtain_gcal():
     cal_url = ls.GCAL_ICS
@@ -107,8 +114,7 @@ def get_current_users_resources(dic):
     return store
 
 
-def check_dict_file(filename=ls.HPC_RESOURCES_FILE,
-                    path=ls.MAIN_DIR):
+def check_dict_file(filename=ls.HPC_RESOURCES_FILE, path=ls.MAIN_DIR):
 
     file = f'{path}{filename}'
     if not os.path.exists(file):
@@ -185,10 +191,10 @@ def add_user_resources(user,
     file = f'{path}{filename}'
     
 
-    dic = read_dict_file(path, filename)
+    dic = read_dict_file()
     dic[user] = [ram_chosen, cpu_chosen]
 
-    write_dict_file(path, filename, dic)
+    write_dict_file(dic)
 
     logging.info(f'User Login: {user} - RAM: {ram_chosen} - CPU: {cpu_chosen}')
     print('Adding User Resources\n\n\n\n')
@@ -200,10 +206,10 @@ def remove_user_resources(user,
 
     file = f'{path}{filename}'
 
-    dic = read_dict_file(path, filename)
+    dic = read_dict_file()
     dic[user] = [0, 0]
 
-    write_dict_file(path, filename, dic)
+    write_dict_file(dic)
 
     logging.info(f'User Logout: {user}')
     
@@ -226,9 +232,9 @@ def start_resource_check(filename=ls.HPC_RESOURCES_FILE,
         os.system(f'rm -f {path}{filename}')
         print(f'Resetting Resources - {reset} - {reset==True}')
 
-    check_dict_file(path, filename)
+    check_dict_file()
     logging.info(f'Pulling Resources From: {path}{filename}')
-    dic = read_dict_file(path, filename)
+    dic = read_dict_file()
 
     ram_usage = collect_current_ram_usage(dic)
     cpu_usage = collect_current_cpu_usage(dic)

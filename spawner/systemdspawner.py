@@ -25,8 +25,13 @@ from .spawner_utils import (obtain_gcal,
                         remove_user_resources,
                         start_resource_check,
                         obtain_logger,
+                        obtain_ascii_art,
 )
 
+from .ascii_art import obtain_ascii_art
+
+# Added By Will
+logging = obtain_logger()
 
 class SystemdSpawner(Spawner):
     user_workingdir = Unicode(
@@ -165,12 +170,75 @@ class SystemdSpawner(Spawner):
         """
     ).tag(config=True)
 
+
+
+    def _options_form_default(self):
+        self.open_ram, self.open_cpu , dic = start_resource_check(reset=False)
+        self.current_users_string = get_current_users_resources(dic)
+        logging.info(f"Espeon Startup open_ram: {self.open_ram} -- open_cpu: {self.open_cpu} -- dict: {dic}")
+        default_env = f"YOURNAME={self.user.name}\nMEM_LIMIT=32G\nCPU_LIMIT=4\n\nINTRO1='Force_stop_all_servers _through_admin_page _before_setting_to_True'\nINTRO2='Must_be_signed_in_as_manager'\nRESET_RESOURCES=False\n{self.current_users_string}"
+
+        return f"""
+
+            <pre class="pre-LG">
+            {obtain_ascii_art()}
+            </pre>
+
+        <div class="form-group">
+            <label for="env">Environment variables (one per line) Min RAM: 16/""" + str(self.open_ram) + """GB  -  Min CPU: 1/""" + str(self.open_cpu) + """Threads</label>
+            <textarea class="form-control" rows="5" name="env">{env}</textarea>
+        </div>
+        """.format(
+            env=default_env
+        )
+
+    def options_from_form(self, formdata):
+        """Added By Will"""
+        options = {}
+        options['env'] = env = {}
+
+        env_lines = formdata.get('env', [''])
+        for line in env_lines[0].splitlines():
+            if line:
+                key, value = line.split('=', 1)
+                env[key.strip()] = value.strip()
+
+        arg_s = formdata.get('args', [''])[0].strip()
+        if arg_s:
+            options['argv'] = shlex.split(arg_s)
+        return options
+
+    def get_args(self):
+        """Added By Will:
+        Return arguments to pass to the notebook server"""
+        argv = super().get_args()
+        if self.user_options.get('argv'):
+            argv.extend(self.user_options['argv'])
+        return argv
+
+    def get_env(self):
+        """Added By Will"""
+        env = super().get_env()
+        if self.user_options.get('env'):
+            env.update(self.user_options['env'])
+        return env
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # All traitlets configurables are configured by now
         self.unit_name = self._expand_user_vars(self.unit_name_template)
 
         self.log.debug('user:%s Initialized spawner with unit %s', self.user.name, self.unit_name)
+
+        # Added By Will
+        try:
+            dic = read_dict_file()
+            logging.info(f'{self.user.name} - First Dictionary Entry Load {dic}')
+        except Exception as ex:
+            logging.info(f'Dictionary Error - {ex}')
+        self.open_ram, self.open_cpu , dic = start_resource_check(reset=False)
+        self.current_users_string = get_current_users_resources(dic)
+        logging.info(f'{self.user.name} - Second Dictionarty Entry Load {dic}')
 
     def _expand_user_vars(self, string):
         """
