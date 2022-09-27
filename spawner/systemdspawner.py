@@ -321,7 +321,9 @@ class SystemdSpawner(Spawner):
         if ls.GROUP_NAME in str_group_checking:
             pass
         else:
-            raise ValueError(f"User: {self.user.name} not in Linux group: {ls.GROUP_NAME}")
+            err_msg = f"User: {self.user.name} not in Linux group: {ls.GROUP_NAME}"
+            logging.info(err_msg)
+            raise ValueError(err_msg)
 
 
         if self.user.name == ls.SERVER_MANAGER:
@@ -343,7 +345,9 @@ class SystemdSpawner(Spawner):
                 if tot_min_ram <= 0 and round(self.mem_limit / ls.RAM_DIVIDER) <= 1.5:
                     pass
                 else:
-                    raise ValueError(f'User Selected - {round(self.mem_limit / ls.RAM_DIVIDER)}G Mem Limit ---  Available {tot_min_ram}G')
+                    err_msg = f'User Selected - {round(self.mem_limit / ls.RAM_DIVIDER)}G Mem Limit ---  Available {tot_min_ram}G'
+                    logging.info(err_msg)
+                    raise ValueError(err_msg)
 
         if self.mem_guarantee:
             env['MEM_GUARANTEE'] = str(self.mem_guarantee)
@@ -357,7 +361,9 @@ class SystemdSpawner(Spawner):
                 elif self.cpu_limit == 0:
                     pass
                 else:
-                    raise ValueError(f'User Selected - {round(self.cpu_limit)} Threads Mem Limit ---  Available {self.open_cpu}Threads')
+                    err_msg = f'User Selected - {round(self.cpu_limit)} Threads Mem Limit ---  Available {self.open_cpu}Threads'
+                    logging.info(err_msg)
+                    raise ValueError(err_msg)
 
         if self.cpu_guarantee:
             env['CPU_GUARANTEE'] = str(self.cpu_guarantee)
@@ -375,8 +381,9 @@ class SystemdSpawner(Spawner):
                 self.mem_limit = ram_limits_int
 
             else:
-                raise ValueError('User Does Not Have Permission To Use Espeon')
-
+                err_msg = 'User Does Not Have Permission To Use This Server'
+                logging.info(err_msg)
+                raise ValueError(err_msg)
         #google_cal_full_check(self.user.name)
 
         add_user_resources(self.user.name,

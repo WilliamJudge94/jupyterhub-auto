@@ -204,4 +204,7 @@ sudo systemctl daemon-reload
 sudo service jupyterhub start
 sudo service jupyterhub restart
 
+printf "\n"
+echo "Installation Complete!! Please, go to https://localhost:8000 in your browser"
+
 
