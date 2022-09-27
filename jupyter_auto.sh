@@ -32,6 +32,18 @@ then
 fi
 
 
+# Make Sure User Has Set The login.html File
+printf "\n"
+echo "Have You Edited The templates/ Folder Files? (y/n)"
+read localsettings_answ
+
+if [ $localsettings_answ == "n" ]
+then
+	echo "Please Edit The templates/ Folder Files"
+	exit 0 
+fi
+
+
 opt_jupyter_ssl="/opt/jupyterhub/ssl-certs/"
 opt_jupyter="/opt/jupyterhub/"
 
@@ -76,6 +88,8 @@ then
 	# Install plotly
 	# Install matplotlib
 fi
+
+printf "\n"
 
 # Generating Config File
 cd $opt_jupyter
@@ -142,7 +156,7 @@ new_default='c.JupyterHub.template_paths =  ["/opt/jupyterhub/templates/"] #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
-
+printf "\n"
 # Create Main Dir
 cd $current_dir
 creation_dir=$(sed '13!d;q' ./spawner/localsettings.py)
@@ -150,6 +164,7 @@ creation_dir2=${creation_dir:12:-1}
 if [ -d ${creation_dir2} ]
 then
 	echo ${creation_dir2}" exists"
+	printf "\n"
 else
 	sudo mkdir -p ${creation_dir2}
 fi
@@ -169,6 +184,7 @@ user_groups2=${user_groups:14:-1}
 creation_dir3=$(echo "$creation_dir2" | cut -d "/" -f2)
 creation_dir4="/$creation_dir3/"
 sudo groupadd ${user_groups2}
+printf "\n"
 sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
 
