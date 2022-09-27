@@ -21,5 +21,22 @@ Motivation & Features
 BASIC Installation
 ------------------
 
-sudo usermod -a -G SharedFiles username
-Logout and Back In Again
+- cd ./repo/path/
+- bash jupyter_auto.sh
+
+Follow the instructions!
+
+
+Editing Settings
+-----------------
+
+
+Editing Templates
+------------------
+
+
+Add yourself to the GROUP_NAME
+------------------------------
+
+- sudo usermod -a -G GROUP_NAME username
+- Logout and Back In Again
