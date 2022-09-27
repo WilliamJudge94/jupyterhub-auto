@@ -19,7 +19,6 @@ then
 	exit 0 
 fi
 
-
 # Make Sure User Has Set The Localsettings File
 printf "\n"
 echo "Have You Edited The localsettings.py File? (y/n)"
@@ -121,12 +120,12 @@ new_default='c.JupyterHub.ssl_key = "/opt/jupyterhub/ssl-certs/jhub.key" #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
+# Default Spawner
+default="c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'"
+new_default='c.JupyterHub.spawner_class = "systemdspawner.SystemdSpawner" #'
 
-# Install Custom SystemDSpawner
-
-# Set Default Spawner For JupyterHub
-#c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
-#c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
 # Create Main Dir
 cd $current_dir
@@ -149,8 +148,9 @@ sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
 
 pyv="$(sudo python3 -V 2>&1)"
-echo "$pyv"
-sudo cp -r spawner/. /usr/local/lib/python${pyv}/dist-packages/systemdspawner/.
+echo "Please Type In The First Two Digits of $pyv  It should be in the form of 3.10"
+read pversion
+sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/.
 
 # Making JupyterHub A Service
 sudo cp ./jupyterhub /etc/init.d/. 

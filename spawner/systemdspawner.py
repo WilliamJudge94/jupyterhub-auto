@@ -469,6 +469,7 @@ class SystemdSpawner(Spawner):
         return None
 
     async def stop(self, now=False):
+        dic = remove_user_resources(self.user.name)
         await systemd.stop_service(self.unit_name)
 
     async def poll(self):
