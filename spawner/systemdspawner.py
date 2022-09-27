@@ -235,13 +235,6 @@ class SystemdSpawner(Spawner):
         # All traitlets configurables are configured by now
         self.unit_name = self._expand_user_vars(self.unit_name_template)
 
-        group_checking = subprocess.check_output(['groups', self.user.name])
-        str_group_checking = str(group_checking)
-        if ls.GROUP_NAME in str_group_checking:
-            pass
-        else:
-            ValueError(f"User: {self.user.name} not in Linux group: {ls.GROUP_NAME}")
-
         self.log.debug('user:%s Initialized spawner with unit %s', self.user.name, self.unit_name)
 
         # Added By Will
@@ -321,6 +314,16 @@ class SystemdSpawner(Spawner):
 
 
         ls = obtain_localsettings()
+
+        group_checking = subprocess.check_output(['groups', self.user.name])
+        str_group_checking = str(group_checking)
+
+        if ls.GROUP_NAME in str_group_checking:
+            pass
+        else:
+            raise ValueError(f"User: {self.user.name} not in Linux group: {ls.GROUP_NAME}")
+
+
         if self.user.name == ls.SERVER_MANAGER:
             print(f'{self.user.name} has initiated a resource reset Pre-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
             self.open_ram, self.open_cpu, dic = start_resource_check(reset=env['RESET_RESOURCES'] )
