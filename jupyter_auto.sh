@@ -113,6 +113,8 @@ fi
 initial_sed='s|# '
 ending_sed="|g "
 file_sed=${opt_jupyter}'jupyterhub_config.py'
+sudo chmod 666 ${file_sed}
+sudo echo "c.PAMAuthenticator.admin_groups = {'MANAGER'}" >> ${file_sed}
 
 # Default URL
 default_url='c.JupyterHub.default_url = traitlets.Undefined'
@@ -192,6 +194,7 @@ user_groups2=${user_groups:14:-1}
 creation_dir3=$(echo "$creation_dir2" | cut -d "/" -f2)
 creation_dir4="/$creation_dir3/"
 sudo groupadd ${user_groups2}
+sudo groupadd MANAGER
 printf "\n"
 sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
