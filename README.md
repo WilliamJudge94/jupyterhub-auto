@@ -24,7 +24,21 @@ BASIC Installation
 - cd ./repo/path/
 - bash jupyter_auto.sh
 
-Follow the instructions!
+- Is Conda Installed? n
+- Anaconda Year (2021) 2021
+- Anaconda Month (11) 11
+- Pleas answer 'yes' or 'no' yes
+- [/home/username/anaconda3] Enter
+- Do you want the installer to initialize Anaconda3? yes
+- source ~/.bashrc
+- bash jupyer_auto.sh
+- Is Conda Installed? y
+- Have You Edited The localsettings.py File y
+- Have You Edited The teamplates/ Folder Files y
+- Install Packages y
+-      Type Y for any package that requires a responce from install
+-      Type blanks answers or actual answers into ssl-keygen responces
+- Please Type In The First Two Digits of Python X.YY.Z   X.YY
 
 
 Editing Settings

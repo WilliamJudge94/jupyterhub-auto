@@ -6,9 +6,9 @@ read conda_answer
 # Installing Conda
 if [ $conda_answer != "y" ]
 then
-	echo "Anaconda Year"
+	echo "Anaconda Year (2021)"
 	read conda_year
-	echo "Anaconda Month"
+	echo "Anaconda Month (11)"
 	read conda_month
 	total_conda1="https://repo.continuum.io/archive/"
 	total_conda2="Anaconda3-"${conda_year}"."${conda_month}"-Linux-x86_64.sh"
@@ -52,7 +52,7 @@ if [ -d ${opt_jupyter_ssl} ]
 then
 	echo ${opt_jupyter_ssl}"exists"
 else
-	sudo mkdir ${opt_jupyter_ssl}
+	sudo mkdir -p ${opt_jupyter_ssl}
 fi
 
 # Installing Packages
