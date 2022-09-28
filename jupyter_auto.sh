@@ -95,10 +95,18 @@ printf "\n"
 cd $opt_jupyter
 sudo jupyterhub --generate-config
 
+printf "\n"
 # Generating SSL Certs
-ssl_key=${opt_jupyter_ssl}jhub.key
-ssl_cert=${opt_jupyter_ssl}jhub.cert
-sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ${ssl_key} -out ${ssl_cert}
+echo "Install SSL Certs (y/n)"
+read cert_answer
+
+# Installing Conda
+if [ $cert_answer == "y" ]
+then
+	ssl_key=${opt_jupyter_ssl}jhub.key
+	ssl_cert=${opt_jupyter_ssl}jhub.cert
+	sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ${ssl_key} -out ${ssl_cert}
+fi
 
 
 # Changing JupyterHub Config File
