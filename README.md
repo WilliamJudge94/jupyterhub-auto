@@ -54,3 +54,9 @@ Add yourself to the GROUP_NAME
 
 - sudo usermod -a -G GROUP_NAME username
 - Logout and Back In Again
+
+
+Add manager users to MANAGER group
+----------------------------------
+
+- sudo usermod -a -G MANAGER username
