@@ -3,6 +3,7 @@ import pwd
 import subprocess
 from traitlets import Bool, Unicode, List, Dict
 import asyncio
+from tornado import web
 
 from systemdspawner import systemd
 
@@ -322,8 +323,9 @@ class SystemdSpawner(Spawner):
             pass
         else:
             err_msg = f"User: {self.user.name} not in Linux group: {ls.GROUP_NAME}"
+            self.log.exception(err_msg)
             logging.info(err_msg)
-            raise ValueError(err_msg)
+            raise web.HTTPError(500, err_msg)
 
 
         if self.user.name == ls.SERVER_MANAGER:
@@ -346,8 +348,9 @@ class SystemdSpawner(Spawner):
                     pass
                 else:
                     err_msg = f'User Selected - {round(self.mem_limit / ls.RAM_DIVIDER)}G Mem Limit ---  Available {tot_min_ram}G'
+                    self.log.exception(err_msg)
                     logging.info(err_msg)
-                    raise ValueError(err_msg)
+                    raise web.HTTPError(500, err_msg)
 
         if self.mem_guarantee:
             env['MEM_GUARANTEE'] = str(self.mem_guarantee)
@@ -362,8 +365,9 @@ class SystemdSpawner(Spawner):
                     pass
                 else:
                     err_msg = f'User Selected - {round(self.cpu_limit)} Threads Mem Limit ---  Available {self.open_cpu}Threads'
+                    self.log.exception(err_msg)
                     logging.info(err_msg)
-                    raise ValueError(err_msg)
+                    raise web.HTTPError(500, err_msg)
 
         if self.cpu_guarantee:
             env['CPU_GUARANTEE'] = str(self.cpu_guarantee)
@@ -382,8 +386,9 @@ class SystemdSpawner(Spawner):
 
             else:
                 err_msg = 'User Does Not Have Permission To Use This Server'
+                self.log.exception(err_msg)
                 logging.info(err_msg)
-                raise ValueError(err_msg)
+                raise web.HTTPError(500, err_msg)
         #google_cal_full_check(self.user.name)
 
         add_user_resources(self.user.name,
