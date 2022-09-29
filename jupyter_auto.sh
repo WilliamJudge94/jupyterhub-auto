@@ -68,7 +68,9 @@ then
 	sudo python3 -m pip install psutil
 	sudo python3 -m pip install ics
 	sudo python3 -m pip install jupyterlab-system-monitor
-	sudo python3 -m pip install --upgrade --force-reinstall pyzmg
+
+	#BerryPi Bad Install
+	sudo python3 -m pip install --upgrade --force-reinstall pyzmq
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install --upgrade autopep8
@@ -221,6 +223,7 @@ sudo chmod +x /etc/init.d/jupyterhub
 sudo systemctl daemon-reload
 sudo service jupyterhub start
 sudo service jupyterhub restart
+sudo service jupyerhub enable
 
 printf "\n"
 echo "Installation Complete!! Please, go to https://localhost:8000 in your browser"
