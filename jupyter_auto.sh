@@ -68,13 +68,19 @@ then
 	sudo python3 -m pip install psutil
 	sudo python3 -m pip install ics
 	sudo python3 -m pip install jupyterlab-system-monitor
-
-	#BerryPi Bad Install
 	sudo python3 -m pip install --upgrade --force-reinstall pyzmq
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python3 -m pip install --upgrade autopep8
 	sudo python3 -m pip install jupyterlab-link-share
+
+	# Maybe needed for berrypi install
+	#sudo apt-get install build-essential libssl-dev libffi-dev \
+    #python3-dev cargo
+	# sudo apt remove rustc
+	# sudo curl https://sh.rustup.rs -sSf | sh
+	#sudo apt install rustc
+
 	sudo python3 -m pip install --force-reinstall jupyterhub-systemdspawner
 	#python3 -m pip install ipympl
 	#python3 -m pip install matplotlib
