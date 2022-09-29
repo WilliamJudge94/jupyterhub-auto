@@ -223,6 +223,8 @@ echo "Please Type In The First Two Digits of $pyv  It should be in the form of 3
 read pversion
 sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/.
 
+sudo cp -r spawner/. /usr/local/lib/python${pversion}/site-packages/systemdspawner/.
+
 sudo cp -r templates /opt/jupyterhub/
 
 
