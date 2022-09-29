@@ -66,7 +66,7 @@ then
 	read py_version_install
 
 	sudo apt-get install python${py_version_install}
-	sudo apt-get install python${py_version_install}-pip
+	sudo apt-get install python3-pip
 	sudo python${py_version_install} -m pip install jupyterlab
 	sudo python${py_version_install} -m pip install jupyterhub
 	sudo python${py_version_install} -m pip install psutil
