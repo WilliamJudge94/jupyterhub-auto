@@ -61,18 +61,22 @@ echo "Install Packages? y/n"
 read install_answer
 if [ $install_answer == "y" ]
 then
-	sudo apt-get install python3
-	sudo apt-get install python3-pip
-	sudo python3 -m pip install jupyterlab
-	sudo python3 -m pip install jupyterhub
-	sudo python3 -m pip install psutil
-	sudo python3 -m pip install ics
-	sudo python3 -m pip install jupyterlab-system-monitor
-	sudo python3 -m pip install --upgrade --force-reinstall pyzmq
+	printf "\n"
+	echo "What is your python version?"
+	read py_version_install
+
+	sudo apt-get install python${py_version_install}
+	sudo apt-get install python${py_version_install}-pip
+	sudo python${py_version_install} -m pip install jupyterlab
+	sudo python${py_version_install} -m pip install jupyterhub
+	sudo python${py_version_install} -m pip install psutil
+	sudo python${py_version_install} -m pip install ics
+	sudo python${py_version_install} -m pip install jupyterlab-system-monitor
+	sudo python${py_version_install} -m pip install --upgrade --force-reinstall pyzmq
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
-	sudo python3 -m pip install --upgrade autopep8
-	sudo python3 -m pip install jupyterlab-link-share
+	sudo python${py_version_install} -m pip install --upgrade autopep8
+	sudo python${py_version_install} -m pip install jupyterlab-link-share
 
 	# Maybe needed for berrypi install
 	#sudo apt-get install build-essential libssl-dev libffi-dev \
@@ -81,7 +85,7 @@ then
 	# sudo curl https://sh.rustup.rs -sSf | sh
 	#sudo apt install rustc
 
-	sudo python3 -m pip install --force-reinstall jupyterhub-systemdspawner
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterhub-systemdspawner
 	#python3 -m pip install ipympl
 	#python3 -m pip install matplotlib
 	#python3 -m pip install plotly
@@ -92,13 +96,13 @@ then
 	# Install Extensions
 	
 	# Install github
-	sudo python3 -m pip install --upgrade jupyterlab jupyterlab-git
+	sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git
 	# Install spreadsheets
 	sudo jupyter labextension install jupyterlab-spreadsheet
 	# Execution Time
-	sudo python3 -m pip install jupyterlab_execute_time
+	sudo python${py_version_install} -m pip install jupyterlab_execute_time
 	# Install Dark Mode
-	sudo python3 -m pip install jupyterlab_theme_solarized_dark
+	sudo python${py_version_install} -m pip install jupyterlab_theme_solarized_dark
 	
 	# Install plotly
 	# Install matplotlib
