@@ -74,9 +74,12 @@ then
 	sudo python3 -m pip install --upgrade autopep8
 	sudo python3 -m pip install jupyterlab-link-share
 	sudo python3 -m pip install --force-reinstall jupyterhub-systemdspawner
-	#sudo python3 -m pip install ipympl
-	#sudo python3 -m pip install matplotlib
-	#sudo python3 -m pip install plotly
+	#python3 -m pip install ipympl
+	#python3 -m pip install matplotlib
+	#python3 -m pip install plotly
+	#python3 -m pip install pandas
+	#python3 -m pip install numpy
+	#python3 -m pip install scipy
 
 	# Install Extensions
 	
