@@ -62,7 +62,7 @@ read install_answer
 if [ $install_answer == "y" ]
 then
 	printf "\n"
-	echo "What is your python version?"
+	echo "What is your python version for install - pythonX -m pip install?"
 	read py_version_install
 
 	sudo apt-get install python${py_version_install}
@@ -103,6 +103,10 @@ then
 	sudo python${py_version_install} -m pip install jupyterlab_execute_time
 	# Install Dark Mode
 	sudo python${py_version_install} -m pip install jupyterlab_theme_solarized_dark
+
+	sudo jupyter labextension install jupyterlab_voyager
+
+	sudo python${py_version_install} -m pip install jupyterlab-unfold
 	
 	# Install plotly
 	# Install matplotlib
