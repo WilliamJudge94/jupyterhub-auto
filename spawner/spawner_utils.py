@@ -82,7 +82,7 @@ def google_cal_full_check(check_name):
 def check_dir_exists(username, path=ls.MAIN_DIR):
     total_path = f'{path}{username}/'
     #access_mkdir = 0o2777
-    access_mkdir = 0o0700
+    access_mkdir = 0o0775
 
     if not os.path.isdir(total_path):
         os.mkdir(total_path, mode=access_mkdir)

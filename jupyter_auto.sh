@@ -104,12 +104,13 @@ then
 	# Install Dark Mode
 	sudo python${py_version_install} -m pip install jupyterlab_theme_solarized_dark
 
-	sudo jupyter labextension install jupyterlab_voyager
+	sudo jupyter labextension install @jupyterlab/celltags
 
 	sudo python${py_version_install} -m pip install jupyterlab-unfold
+	sudo python${py_version_install} -m pip install jupyterlab-topbar
+	sudo python${py_version_install} -m pip install jupyterlab-logout
+	sudo jupyter labextension install jupyterlab-topbar-extension jupyterlab-theme-toggle
 	
-	# Install plotly
-	# Install matplotlib
 fi
 
 printf "\n"
