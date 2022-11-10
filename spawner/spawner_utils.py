@@ -235,3 +235,13 @@ def start_resource_check(filename=ls.HPC_RESOURCES_FILE,
     max_cpu = set_max_cpu(cpu_usage)
 
     return max_ram, max_cpu, dic
+
+
+def simlink_shared_folder(username, path=ls.MAIN_DIR):
+    total_path = f'{path}{username}/shared'
+    shared_path = f'{path}shared/'
+    access_mkdir = 0o07775
+
+    if not os.path.isdir(total_path):
+        #os.mkdir(total_path, mode=access_mkdir)
+        os.symlink(shared_path, total_path, target_is_directory=True)

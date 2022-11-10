@@ -14,6 +14,7 @@ from .spawner_utils import (obtain_gcal,
                         get_events_that_end_after_current_time, check_if_name_in_cal,
                         google_cal_full_check,
                         check_dir_exists,
+                        simlink_shared_folder, 
                         get_current_users_resources,
                         check_dict_file,
                         read_dict_file,
@@ -337,6 +338,7 @@ class SystemdSpawner(Spawner):
             self.open_ram, self.open_cpu, dic = start_resource_check(reset=False)
 
         check_dir_exists(self.user.name)
+        simlink_shared_folder(self.user.name)
 
         tot_min_ram = self.open_ram
 

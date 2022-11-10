@@ -201,6 +201,17 @@ then
 	printf "\n"
 else
 	sudo mkdir -p ${creation_dir2}
+	
+fi
+
+shared_file_creation=${creation_dir2}'/shared/'
+if [ -d ${shared_file_creation} ]
+then
+	echo ${shared_file_creation}" exists"
+	printf "\n"
+else
+	sudo mkdir -p ${shared_file_creation}
+	
 fi
 
 # Default Dir
