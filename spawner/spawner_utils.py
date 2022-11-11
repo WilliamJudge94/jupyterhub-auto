@@ -238,7 +238,11 @@ def start_resource_check(filename=ls.HPC_RESOURCES_FILE,
 
 
 def simlink_shared_folder(username, path=ls.MAIN_DIR):
-    total_path = f'{path}{username}/shared'
+    path2 = path.replace('{username}', username)
+    if path != path2:
+        total_path = f'{path}/shared'
+    else:
+        total_path = f'{path}{username}/shared'
     shared_path = f'{path}shared/'
     access_mkdir = 0o07775
 

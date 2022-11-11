@@ -216,7 +216,7 @@ fi
 
 # Default Dir
 default="c.Spawner.notebook_dir = ''"
-new_default='c.Spawner.notebook_dir = "'${creation_dir2}'" #'
+new_default='c.Spawner.notebook_dir = "'${creation_dir2}'{username}" #'
 
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}

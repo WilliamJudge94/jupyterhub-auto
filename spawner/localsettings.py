@@ -10,7 +10,7 @@ ASCII_ART_FILE = "./ascii_art.txt"
 
 
 # Main User Configurable Parameters
-MAIN_DIR = "/local/data/{username}"
+MAIN_DIR = "/local/data/"
 SERVER_NAME = "ESPEON"
 SERVER_MANAGER = "test_user"
 MEMBERS_DICT = {
