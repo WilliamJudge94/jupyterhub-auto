@@ -204,7 +204,7 @@ class SystemdSpawner(Spawner):
         <br />
 
         <div class="form-group">
-            <label for="env">Current Active Users  --  Available Resources Min RAM: 1/{open_ram}GB  -  Min CPU: 1/{threads} Threads</label>
+            <label for="env">Available Resources RAM: {open_ram}GB  -  CPU: {threads} Threads   --   Current Active Users:</label>
             <textarea class="form-control" rows="5" name="env">{env}</textarea>
         </div>
         
