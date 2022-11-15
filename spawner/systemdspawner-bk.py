@@ -1,12 +1,9 @@
 import os
 import pwd
 import subprocess
-from traitlets import (Bool, Unicode, List,
-                        Dict, Int, default)
-
+from traitlets import Bool, Unicode, List, Dict
 import asyncio
 from tornado import web
-
 
 from systemdspawner import systemd
 
@@ -178,68 +175,40 @@ class SystemdSpawner(Spawner):
 
 
 
-    @default('options_form')
-    def _default_options_form(self):
-        return """
+    def _options_form_default(self):
+        self.open_ram, self.open_cpu , dic = start_resource_check(reset=False)
+        self.current_users_string = get_current_users_resources(dic)
+        logging.info(f"Espeon Startup open_ram: {self.open_ram} -- open_cpu: {self.open_cpu} -- dict: {dic}")
+        default_env = f"YOURNAME={self.user.name}\nMEM_LIMIT=32G\nCPU_LIMIT=4\n\nINTRO1='Force_stop_all_servers _through_admin_page _before_setting_to_True'\nINTRO2='Must_be_signed_in_as_manager'\nRESET_RESOURCES=False\n{self.current_users_string}"
 
-        <pre class="pre-LG">
-        {ascii_art}
-        </pre>
+        return f"""
 
-        <br />
-
-        <label for="username">Current User:</label>
-        <input type="text" name="username" value='{username}' size="15"/>
-        
-        <label for="CPU_LIMIT">CPU (Threads):</label>
-        <input type="number" name="CPU_LIMIT" value="0" style="width: 6em" />
-
-        <label for="MEM_LIMIT">RAM (GB):</label>
-        <input type="number" name="MEM_LIMIT" value="48" style="width: 6em" />
-
-        <label for="RESET_RESOURCES">Reset Resources:</label>
-        <input type="checkbox" name="RESET_RESOURCES" value=False />
-        
-        <br />
-        <br />
+            <pre class="pre-LG">
+            {obtain_ascii_art()}
+            </pre>
 
         <div class="form-group">
-            <label for="env">Current Active Users  --  Available Resources Min RAM: 1/{open_ram}GB  -  Min CPU: 1/{threads} Threads</label>
+            <label for="env">Environment variables (one per line) Min RAM: 1/""" + str(self.open_ram) + """GB  -  Min CPU: 1/""" + str(self.open_cpu) + """Threads</label>
             <textarea class="form-control" rows="5" name="env">{env}</textarea>
         </div>
-        
-        """.format(username=self.user.name,
-                    ascii_art=obtain_ascii_art(),
-                    open_ram=self.open_ram,
-                    threads=self.open_cpu,
-                    env=self.current_users_string)
+        """.format(
+            env=default_env
+        )
 
     def options_from_form(self, formdata):
-        """Turn options formdata into user_options"""
+        """Added By Will"""
         options = {}
+        options['env'] = env = {}
 
-        print(formdata.keys())
-        #print(type(formdata['env']))
-        #print(formdata['env'])
+        env_lines = formdata.get('env', [''])
+        for line in env_lines[0].splitlines():
+            if line:
+                key, value = line.split('=', 1)
+                env[key.strip()] = value.strip()
 
-        if 'username' in formdata:
-            options['username'] = formdata['username'][0]
-            #formdata['env']['username'] = formdata['username'][0]
-
-        if 'CPU_LIMIT' in formdata:
-            options['CPU_LIMIT'] = str(int(formdata['CPU_LIMIT'][0]))
-            #formdata['env']['CPU_LIMIT'] = formdata['CPU_LIMIT'][0]
-
-        if 'MEM_LIMIT' in formdata:
-            options['MEM_LIMIT'] = str(int(formdata['MEM_LIMIT'][0]))+'G'
-            #formdata['env']['MEM_LIMIT'] = formdata['MEM_LIMIT'][0]+'G'
-
-        if 'RESET_RESOURCES' in formdata:
-            options['RESET_RESOURCES'] = formdata['RESET_RESOURCES'][0]
-            #formdata['env']['RESET_RESOURCES'] = formdata['RESET_RESOURCES'][0]
-        else:
-            options['RESET_RESOURCES'] = False
-
+        arg_s = formdata.get('args', [''])[0].strip()
+        if arg_s:
+            options['argv'] = shlex.split(arg_s)
         return options
 
     def get_args(self):
@@ -255,10 +224,6 @@ class SystemdSpawner(Spawner):
         env = super().get_env()
         if self.user_options.get('env'):
             env.update(self.user_options['env'])
-
-        for key in self.user_options:
-            env[key] = self.user_options[key]
-
 
         self.mem_limit = env['MEM_LIMIT']
         self.mem_guarantee = '1G'
@@ -363,7 +328,8 @@ class SystemdSpawner(Spawner):
             logging.info(err_msg)
             raise web.HTTPError(500, err_msg)
 
-        if 'MANAGER' in str_group_checking:
+
+        if self.user.name == ls.SERVER_MANAGER:
             print(f'{self.user.name} has initiated a resource reset Pre-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
             self.open_ram, self.open_cpu, dic = start_resource_check(reset=env['RESET_RESOURCES'] )
             print(f'{self.user.name} has initiated a resource reset Post-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
