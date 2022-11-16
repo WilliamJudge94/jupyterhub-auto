@@ -39,6 +39,8 @@ BASIC Installation
 -      Type Y for any package that requires a responce from install
 -      Type blanks answers or actual answers into ssl-keygen responces
 - Please Type In The First Two Digits of Python X.YY.Z   X.YY
+- sudo service jupyterhub restart
+- sudo service jupyterhub enable
 
 
 Editing Settings
@@ -50,9 +52,6 @@ Editing Settings
 - Change ascii in ./spawner/ascii_art.py
 - Add entire culling_add2config.py to the end of /opt/jupyterhub/jupyterhub_config.py to add culling of instances
 - To add Real-Time-Collaboration, follow my comment https://github.com/jupyterhub/jupyterhub/issues/3578 here
-
-Editing Templates
-------------------
 
 
 Add yourself to the GROUP_NAME
