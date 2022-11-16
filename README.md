@@ -44,6 +44,12 @@ BASIC Installation
 Editing Settings
 -----------------
 
+- Change ./templates/jhub_logo.png
+- Change img URL and footer text in ./templates/login.html
+- Change title in ./templates/page.html
+- Change ascii in ./spawner/ascii_art.py
+- Add entire culling_add2config.py to the end of /opt/jupyterhub/jupyterhub_config.py to add culling of instances
+- To add Real-Time-Collaboration, follow my comment https://github.com/jupyterhub/jupyterhub/issues/3578 here
 
 Editing Templates
 ------------------
