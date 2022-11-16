@@ -77,7 +77,7 @@ then
 	sudo npm install -g configurable-http-proxy
 	sudo python${py_version_install} -m pip install --upgrade autopep8
 	sudo python${py_version_install} -m pip install jupyterlab-link-share
-
+	sudo python${py_version_install} -m pip install jupyterhub-idle-culler
 	# Maybe needed for berrypi install
 	#sudo apt-get install build-essential libssl-dev libffi-dev \
     #python3-dev cargo
