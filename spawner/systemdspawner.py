@@ -369,6 +369,10 @@ class SystemdSpawner(Spawner):
             print(f'{self.user.name} has initiated a resource reset Post-Check -- RAM: {self.open_ram}  CPU: {self.open_cpu}')
 
         else:
+            if env['RESET_RESOURCES']:
+                err_msg = "User is not in MANAGER group. Unable to reset resources."
+                raise web.HTTPError(500, err_msg)
+
             self.open_ram, self.open_cpu, dic = start_resource_check(reset=False)
 
         check_dir_exists(self.user.name)
