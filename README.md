@@ -73,3 +73,24 @@ Add manager users to MANAGER group
 ----------------------------------
 
 - sudo usermod -a -G MANAGER username
+
+
+Connecting to VS-Code
+---------------------
+
+(VS) = Found in VS-Code
+(JH) = Found in JupyterHub after login
+(Serv) = Server running JupyterHub
+
+- (VS) Under File > Preferences > Settings find "Allow Unauthorized Remote Connections" and make sure that it is checked. The SSL certificate for JupyterHub is self assigned which means you need to make sure VS-Code can approve this type of connection
+- (VS) Download the SSH extension
+- (VS) Create a remote SSH connection to the server running JupyterHub
+- (VS) Download the jupyter extension on the remote server
+- (Serv) Install jupyterlab-link-share to your JupyterHub instance
+- (Serv) restart JupyterHub
+- (JH) Log into JupyterHub server
+- (JH) Once your instance is running, click on the share tab and copy the provided link.
+- (JH) Trunkate the link to this format https://localhost:8000/user/[username_here]/?token=[copy_this_from_share_button]
+- (JH) https://localhost:8000/user/prof_oak/?token=12345678abc
+- (VS) Search for "Specify Jupyter Server For Connection"
+- (VS) Paste the trunkated link into the prompt
