@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="{{key}}-label">{{title}}</h4>
+        <h1 class="modal-title" id="{{key}}-label">{{title}}</h1>
       </div>
       <div class="modal-body">
         {{ caller() }}
@@ -22,7 +22,7 @@
 
 
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -80,6 +80,7 @@
         {% else %}
         options_form: false,
         {% endif %}
+        xsrf_token: "{{ xsrf_token }}",
       }
     </script>
 
@@ -103,7 +104,7 @@
       <div class="navbar-header">
         {% block logo %}
         <span id="jupyterhub-logo" class="pull-left">
-            <a href="{{logo_url or base_url}}"><img src='{{base_url}}logo' alt='JupyterHub' class='jpy-logo' title='Home'/></a>
+            <a href="{{logo_url or base_url}}"><img src='{{base_url}}logo' alt='JupyterHub logo' class='jpy-logo' title='Home'/></a>
         </span>
         {% endblock %}
         {% if user %}
@@ -122,7 +123,7 @@
           {% block nav_bar_left_items %}
             <li><a href="{{base_url}}home">Home</a></li>
             <li><a href="{{base_url}}token">Token</a></li>
-            {% if user.admin %}
+            {% if 'admin-ui' in parsed_scopes %}
             <li><a href="{{base_url}}admin">Admin</a></li>
             {% endif %}
             {% if services %}
@@ -131,7 +132,7 @@
               <ul class="dropdown-menu">
               {% for service in services %}
               {% block service scoped %}
-                <li><a class="dropdown-item" href="{{service.prefix}}">{{service.name}}</a></li>
+                <li><a class="dropdown-item" href="{{service.href}}">{{service.name}}</a></li>
               {% endblock %}
               {% endfor %}
               </ul>
