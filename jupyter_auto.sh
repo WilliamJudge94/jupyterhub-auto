@@ -72,12 +72,12 @@ then
 	sudo python${py_version_install} -m pip install psutil
 	sudo python${py_version_install} -m pip install ics
 	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab-system-monitor==0.8.0
-	sudo python${py_version_install} -m pip install --upgrade --force-reinstall pyzmq
+	sudo python${py_version_install} -m pip install --upgrade --force-reinstall pyzmq==24.0.1
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python${py_version_install} -m pip install --upgrade autopep8
-	sudo python${py_version_install} -m pip install jupyterlab-link-share
-	sudo python${py_version_install} -m pip install jupyterhub-idle-culler
+	sudo python${py_version_install} -m pip install jupyterlab-link-share==0.2.4
+	sudo python${py_version_install} -m pip install jupyterhub-idle-culler==1.2.1
 	# Maybe needed for berrypi install
 	#sudo apt-get install build-essential libssl-dev libffi-dev \
     #python3-dev cargo
@@ -96,13 +96,13 @@ then
 	# Install Extensions
 	
 	# Install github
-	sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git
+	sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git==0.39.3
 	# Install spreadsheets
 	#sudo jupyter labextension install jupyterlab-spreadsheet
 	# Execution Time
-	sudo python${py_version_install} -m pip install jupyterlab_execute_time
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab_execute_time==2.3.0
 	# Install Dark Mode
-	sudo python${py_version_install} -m pip install jupyterlab_theme_solarized_dark
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab_theme_solarized_dark==2.1.0
 
 	sudo jupyter labextension install @jupyterlab/celltags
 
