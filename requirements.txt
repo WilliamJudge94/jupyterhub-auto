@@ -1,10 +1,10 @@
-jupyterlab>=3.5.0
-jupyterhub>=4.0.0
+jupyterlab
+jupyterhub
 psutil
 ics
-jupyterlab-system-monitor<=0.8.0
+jupyter-resource-usage
 pyzmq<=24.0.1
 autopep8
 jupyterhub-systemdspawner==0.16
 jupyterlab_theme_solarized_dark<=2.1.0
-jupyterlab-logout
+#jupyterlab-logout

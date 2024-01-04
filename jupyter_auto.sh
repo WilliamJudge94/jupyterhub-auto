@@ -70,7 +70,7 @@ then
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 
-	sudo python${py_version_install} -m pip install --no-cache-dir -r requirements.txt
+	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir -r requirements.txt
 	
 fi
 
