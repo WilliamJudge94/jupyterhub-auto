@@ -67,17 +67,17 @@ then
 
 	sudo apt-get install python${py_version_install}
 	sudo apt-get install python3-pip
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab==3.5.0
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterhub==3.0.0
-	sudo python${py_version_install} -m pip install psutil
-	sudo python${py_version_install} -m pip install ics
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab-system-monitor==0.8.0
-	sudo python${py_version_install} -m pip install --upgrade --force-reinstall pyzmq==24.0.1
+	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir 'jupyterlab<=3.5.0'
+	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir 'jupyterhub<4.0.0'
+	sudo python${py_version_install} -m pip install  --no-cache-dir psutil
+	sudo python${py_version_install} -m pip install  --no-cache-dir ics
+	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir 'jupyterlab-system-monitor<=0.8.0'
+	sudo python${py_version_install} -m pip install --upgrade --force-reinstall --no-cache-dir 'pyzmq<=24.0.1'
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 	sudo python${py_version_install} -m pip install --upgrade autopep8
-	sudo python${py_version_install} -m pip install jupyterlab-link-share==0.2.4
-	sudo python${py_version_install} -m pip install jupyterhub-idle-culler==1.2.1
+	#sudo python${py_version_install} -m pip install jupyterlab-link-share==0.2.4
+	#sudo python${py_version_install} -m pip install jupyterhub-idle-culler==1.2.1
 	# Maybe needed for berrypi install
 	#sudo apt-get install build-essential libssl-dev libffi-dev \
     #python3-dev cargo
@@ -96,19 +96,19 @@ then
 	# Install Extensions
 	
 	# Install github
-	sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git==0.39.3
+	#sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git==0.39.3
 	# Install spreadsheets
 	#sudo jupyter labextension install jupyterlab-spreadsheet
 	# Execution Time
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab_execute_time==2.3.0
+	#sudo python${py_version_install} -m pip install --force-reinstall jupyterlab_execute_time==2.3.0
 	# Install Dark Mode
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab_theme_solarized_dark==2.1.0
+	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir 'jupyterlab_theme_solarized_dark<=2.1.0'
 
 	sudo jupyter labextension install @jupyterlab/celltags
 
 	#sudo python${py_version_install} -m pip install jupyterlab-unfold
 	#sudo python${py_version_install} -m pip install jupyterlab-topbar
-	sudo python${py_version_install} -m pip install jupyterlab-logout
+	sudo python${py_version_install} -m pip install  --no-cache-dir jupyterlab-logout
 	#sudo jupyter labextension install jupyterlab-topbar-extension jupyterlab-theme-toggle
 	
 fi
