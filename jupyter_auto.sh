@@ -6,9 +6,9 @@ read conda_answer
 # Installing Conda
 if [ $conda_answer != "y" ]
 then
-	echo "Anaconda Year (2021)"
+	echo "Anaconda Year (2023)"
 	read conda_year
-	echo "Anaconda Month (11)"
+	echo "Anaconda Month (03)"
 	read conda_month
 	total_conda1="https://repo.continuum.io/archive/"
 	total_conda2="Anaconda3-"${conda_year}"."${conda_month}"-Linux-x86_64.sh"
@@ -67,8 +67,8 @@ then
 
 	sudo apt-get install python${py_version_install}
 	sudo apt-get install python3-pip
-	sudo python${py_version_install} -m pip install jupyterlab
-	sudo python${py_version_install} -m pip install jupyterhub
+	sudo python${py_version_install} -m pip install jupyterlab==3.5.0
+	sudo python${py_version_install} -m pip install jupyterhub==3.0.0
 	sudo python${py_version_install} -m pip install psutil
 	sudo python${py_version_install} -m pip install ics
 	sudo python${py_version_install} -m pip install jupyterlab-system-monitor
@@ -98,7 +98,7 @@ then
 	# Install github
 	sudo python${py_version_install} -m pip install --upgrade jupyterlab jupyterlab-git
 	# Install spreadsheets
-	sudo jupyter labextension install jupyterlab-spreadsheet
+	#sudo jupyter labextension install jupyterlab-spreadsheet
 	# Execution Time
 	sudo python${py_version_install} -m pip install jupyterlab_execute_time
 	# Install Dark Mode
@@ -106,10 +106,10 @@ then
 
 	sudo jupyter labextension install @jupyterlab/celltags
 
-	sudo python${py_version_install} -m pip install jupyterlab-unfold
-	sudo python${py_version_install} -m pip install jupyterlab-topbar
+	#sudo python${py_version_install} -m pip install jupyterlab-unfold
+	#sudo python${py_version_install} -m pip install jupyterlab-topbar
 	sudo python${py_version_install} -m pip install jupyterlab-logout
-	sudo jupyter labextension install jupyterlab-topbar-extension jupyterlab-theme-toggle
+	#sudo jupyter labextension install jupyterlab-topbar-extension jupyterlab-theme-toggle
 	
 fi
 
