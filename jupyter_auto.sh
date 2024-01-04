@@ -67,11 +67,11 @@ then
 
 	sudo apt-get install python${py_version_install}
 	sudo apt-get install python3-pip
-	sudo python${py_version_install} -m pip install jupyterlab==3.5.0
-	sudo python${py_version_install} -m pip install jupyterhub==3.0.0
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab==3.5.0
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterhub==3.0.0
 	sudo python${py_version_install} -m pip install psutil
 	sudo python${py_version_install} -m pip install ics
-	sudo python${py_version_install} -m pip install jupyterlab-system-monitor
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterlab-system-monitor==0.8.0
 	sudo python${py_version_install} -m pip install --upgrade --force-reinstall pyzmq
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
@@ -85,7 +85,7 @@ then
 	# sudo curl https://sh.rustup.rs -sSf | sh
 	#sudo apt install rustc
 
-	sudo python${py_version_install} -m pip install --force-reinstall jupyterhub-systemdspawner
+	sudo python${py_version_install} -m pip install --force-reinstall jupyterhub-systemdspawner==0.16
 	#python3 -m pip install ipympl
 	#python3 -m pip install matplotlib
 	#python3 -m pip install plotly
