@@ -1,3 +1,22 @@
+check_command() {
+    local cmd_name=$1
+    local cmd_path
+
+    # Find the full path of the command, suppressing errors if not found
+    cmd_path=$(which "$cmd_name" 2>/dev/null)
+
+    if [ -n "$cmd_path" ]; then
+        if [[ "$cmd_path" != *"jupyterhub-auto"* ]]; then
+            echo "Error: '$cmd_name' cannot be within the PATH outside of 'jupyterhub-auto'"
+            exit 1
+        fi
+    fi
+}
+
+# Check for 'jupyter' and 'jupyterhub'
+check_command "jupyter"
+check_command "jupyterhub"
+
 current_dir="$PWD"
 
 echo "Is Conda Installed? (y/n)"
