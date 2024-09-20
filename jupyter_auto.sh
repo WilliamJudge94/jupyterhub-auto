@@ -250,7 +250,7 @@ sudo service jupyerhub enable
 if lsof -i :8000 | grep -q "jupyterhub"; then
     echo "JupyterHub is running on port 8000."
 else
-    echo "Error: JupyterHub is not running on port 8000. Failed to start JupyterHub."
+    echo "Error: JupyterHub may have failed to start."
     exit 1
 fi
 
