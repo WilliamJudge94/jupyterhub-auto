@@ -3,8 +3,7 @@ jupyterhub
 psutil
 ics
 jupyter-resource-usage
-pyzmq<=24.0.1
+pyzmq
 autopep8
 jupyterhub-systemdspawner==0.16
-jupyterlab_theme_solarized_dark<=2.1.0
-#jupyterlab-logout
+jupyterlab_theme_solarized_dark
