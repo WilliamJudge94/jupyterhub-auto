@@ -1,3 +1,22 @@
+check_command() {
+    local cmd_name=$1
+    local cmd_path
+
+    # Find the full path of the command, suppressing errors if not found
+    cmd_path=$(which "$cmd_name" 2>/dev/null)
+
+    if [ -n "$cmd_path" ]; then
+        if [[ "$cmd_path" != *"jupyterhub-auto"* ]]; then
+            echo "Error: '$cmd_name' cannot be within the PATH outside of 'jupyterhub-auto'"
+            exit 1
+        fi
+    fi
+}
+
+# Check for 'jupyter' and 'jupyterhub'
+check_command "jupyter"
+check_command "jupyterhub"
+
 current_dir="$PWD"
 
 echo "Is Conda Installed? (y/n)"
@@ -62,15 +81,18 @@ read install_answer
 if [ $install_answer == "y" ]
 then
 	printf "\n"
-	echo "What is your python version for install - pythonX -m pip install?"
-	read py_version_install
+	#echo "What is your python version for install - pythonX -m pip install?"
+	#read py_version_install
+
+	py_version_install="3.12"
+	py_version_major="${py_version_install:0:1}"
 
 	sudo apt-get install python${py_version_install}
 	sudo apt-get install python3-pip
 	sudo apt install nodejs npm
 	sudo npm install -g configurable-http-proxy
 
-	sudo python${py_version_install} -m pip install --force-reinstall --no-cache-dir -r requirements.txt
+	sudo python${py_version_major} -m pip install --force-reinstall --no-cache-dir --break-system-packages -r requirements.txt
 	
 fi
 
@@ -196,11 +218,21 @@ sudo chown -R root:${user_groups2} ${creation_dir4}
 sudo chmod -R 775 ${creation_dir4} 
 
 pyv="$(sudo python3 -V 2>&1)"
-echo "Please Type In The First Two Digits of $pyv  It should be in the form of 3.10"
-read pversion
-sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/.
+# Set Python version directly
+pversion="3.12"
 
-sudo cp -r spawner/. /usr/local/lib/python${pversion}/site-packages/systemdspawner/.
+# Try copying to dist-packages first
+if sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/; then
+    echo "Copied to dist-packages successfully."
+else
+    # If the first copy fails, try copying to site-packages
+    if sudo cp -r spawner/. /usr/local/lib/python${pversion}/site-packages/systemdspawner/; then
+        echo "Copied to site-packages successfully."
+    else
+        echo "Error: Both copy operations failed. Check to see if packages installed to /usr/local/lib/python${pversion}/dist-packages or /usr/local/lib/python${pversion}/site-packages."
+        exit 1
+    fi
+fi
 
 sudo cp -r templates /opt/jupyterhub/
 
@@ -213,6 +245,15 @@ sudo systemctl daemon-reload
 sudo service jupyterhub start
 sudo service jupyterhub restart
 sudo service jupyerhub enable
+
+# Check if jupyterhub is running on port 8000
+if lsof -i :8000 | grep -q "jupyterhub"; then
+    echo "JupyterHub is running on port 8000."
+else
+    echo "Error: JupyterHub may have failed to start."
+    exit 1
+fi
+
 
 printf "\n"
 echo "Installation Complete!! Please, go to https://localhost:8000 in your browser"
