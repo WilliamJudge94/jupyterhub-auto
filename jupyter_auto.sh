@@ -87,6 +87,7 @@ then
 	py_version_install="3.12"
 	py_version_major="${py_version_install:0:1}"
 
+	sudo apt install ufw
 	sudo apt-get install python${py_version_install}
 	sudo apt-get install python3-pip
 	sudo apt install nodejs npm
@@ -254,15 +255,35 @@ sudo cp ./jupyterhub /etc/init.d/.
 sudo chmod +x /etc/init.d/jupyterhub
 
 sudo systemctl daemon-reload
-#sudo service jupyterhub start
-#sudo service jupyterhub restart
+sudo service jupyterhub start
+sudo service jupyterhub restart
 #sudo service jupyerhub enable
 
-# Check if jupyterhub is running on port 8000
-if lsof -i :8000 | grep -q "jupyterhub"; then
-    echo "JupyterHub is running on port 8000."
+# Check if JupyterHub process is running
+if pgrep -f "jupyterhub" > /dev/null; then
+    echo "JupyterHub process is running."
 else
-    echo "Error: JupyterHub may have failed to start."
+    echo "Error: JupyterHub process is not running."
+    exit 1
+fi
+
+# Ask the user if they want to open port 8000
+read -p "Do you want to open port 8000? (y/n): " answer
+
+if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+    sudo ufw allow 8000/tcp
+    sudo ufw reload
+	sudo ufw enable
+    echo "Port 8000 has been opened."
+else
+    echo "Port 8000 has not been opened."
+fi
+
+# Optionally, check if JupyterHub is responding on port 8000
+if curl -s http://localhost:8000/hub/ > /dev/null; then
+    echo "JupyterHub is accessible on port 8000."
+else
+    echo "Error: JupyterHub is not responding on port 8000."
     exit 1
 fi
 
