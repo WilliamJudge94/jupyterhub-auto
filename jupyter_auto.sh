@@ -3,7 +3,7 @@ check_command() {
     local cmd_path
 
     # Find the full path of the command, suppressing errors if not found
-    cmd_path=$(which "$cmd_name" 2>/dev/null)
+	cmd_path=$(pwd)
 
     if [ -n "$cmd_path" ]; then
         if [[ "$cmd_path" != *"jupyterhub-auto"* ]]; then
@@ -69,7 +69,7 @@ opt_jupyter="/opt/jupyterhub/"
 # Creating opt dir
 if [ -d ${opt_jupyter_ssl} ]
 then
-	echo ${opt_jupyter_ssl}"exists"
+	echo ${opt_jupyter_ssl}" exists. No need to recreate it."
 else
 	sudo mkdir -p ${opt_jupyter_ssl}
 fi
@@ -173,6 +173,15 @@ new_default='c.JupyterHub.template_paths =  ["/opt/jupyterhub/templates/"] #'
 sed_script_default=${initial_sed}${default}'|'${new_default}
 sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
 
+
+# Default Login Template
+default="c.Authenticator.allow_all = "
+new_default='c.Authenticator.allow_all = True #'
+
+sed_script_default=${initial_sed}${default}'|'${new_default}
+sudo sed -i "${sed_script_default}${ending_sed}" ${file_sed}
+
+
 printf "\n"
 # Create Main Dir
 cd $current_dir
@@ -180,7 +189,7 @@ creation_dir=$(sed '13!d;q' ./spawner/localsettings.py)
 creation_dir2=${creation_dir:12:-1}
 if [ -d ${creation_dir2} ]
 then
-	echo ${creation_dir2}" exists"
+	echo "${creation_dir2}  exists. No need to recreate it."
 	printf "\n"
 else
 	sudo mkdir -p ${creation_dir2}
@@ -219,7 +228,10 @@ sudo chmod -R 775 ${creation_dir4}
 
 pyv="$(sudo python3 -V 2>&1)"
 # Set Python version directly
-pversion="3.12"
+pversion=$(echo $pyv | awk '{print $2}' | cut -d. -f1,2)
+
+# Print the Python version being used
+echo "Python version being used: $pversion"
 
 # Try copying to dist-packages first
 if sudo cp -r spawner/. /usr/local/lib/python${pversion}/dist-packages/systemdspawner/; then
@@ -242,9 +254,9 @@ sudo cp ./jupyterhub /etc/init.d/.
 sudo chmod +x /etc/init.d/jupyterhub
 
 sudo systemctl daemon-reload
-sudo service jupyterhub start
-sudo service jupyterhub restart
-sudo service jupyerhub enable
+#sudo service jupyterhub start
+#sudo service jupyterhub restart
+#sudo service jupyerhub enable
 
 # Check if jupyterhub is running on port 8000
 if lsof -i :8000 | grep -q "jupyterhub"; then
